@@ -22,6 +22,7 @@
         animation: 
           typing 3.5s steps(40, end),
           blink-caret .75s step-end infinite;
+        height: "100%";
       }
       /* The typing effect */
       @keyframes typing {
@@ -70,13 +71,15 @@
       .header{
         border: 5px outset  rgb(213, 210, 213);
         padding: 20px;
+        padding-top: 20px;
+        padding-bottom: 5px;
         background-color: rgb(0, 0, 0);
         border-radius: 25px;
         font-family: Georgia, 'Times New Roman', Times, serif;
         text-align:center;
         color: rgb(255, 255, 255);
         width: auto;
-        height: 90px;
+        height: 110px;
       }
 
       .navbarmod{
@@ -86,9 +89,11 @@
         border-radius: 25px;
         text-align:center;
         color: rgb(245, 240, 240);
-        width: auto;
-        height: 100px;
+        width: "100%";
+        height: "100%";
       }
+
+
 
 
   </style>
@@ -107,11 +112,14 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     -->
-    <div class = "navbarmod">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="navbarmod">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="http://127.0.0.1:8000"><h3>Health-Check</h3></a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <a class="navbar-brand" href="http://127.0.0.1:8000">
+            <h3>Health-Check</h3>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
@@ -123,22 +131,23 @@
                 <a class="nav-link" href="http://127.0.0.1:8000/Risk Predictions">Risk Predictions</a>
               </li>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                  data-bs-toggle="dropdown" aria-expanded="false">
                   Analysis
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li><a class="dropdown-item" href="http://127.0.0.1:8000/Cardiovascular Analysis">Cardiovascular Analysis</a></li>
+                  <li><a class="dropdown-item" href="http://127.0.0.1:8000/Cardiovascular Analysis">Cardiovascular
+                      Analysis</a></li>
                   <li><a class="dropdown-item" href="http://127.0.0.1:8000/Liver Analysis">Liver Analysis</a></li>
-                  <li><a class="dropdown-item" href="http://127.0.0.1:8000/Lung Analysis">Lung Analysis</a></li>
                 </ul>
               </li>
-              
+    
             </ul>
           </div>
         </div>
       </nav>
-  </div>
-  <p></p>
+    </div>
+    <p></p>
     
       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
@@ -168,7 +177,7 @@
       </div> 
       <p></p>
       <div class="header">
-        <div class="typewriter"><h1>Welcome to Health-Check</h1></div>
+        <div class="typewriter" ><h1>Welcome to Health-Check</h1></div>
       </div>
       <p></p>
       <p>Your one stop website to <b><i>simple</i></b>, <b><i>hassle-Free</i></b>, <b><i>accurate predictions</i></b> for your paranoias regarding
@@ -197,6 +206,17 @@
             what problems you may or may not experience.
           </p>
           <a href="\Liver Analysis" class="btn btn-primary">Test</a>
+        </div>
+      </div>
+      <div class="card text-white bg-secondary mb-3 ms-4" width="auto" style="max-width: 18rem;">
+        <div class="card-header">Symptom-Predictor</div>
+        <div class="card-body">
+          <h5 class="card-title">Paranoid ? Get yourself a quick check</h5>
+          <p class="card-text">Do you have mild symptoms like, chest pain, breathlessness or other
+            symptoms which might make you feel paranoid and restless and want to meet a doctor out of the
+            restlessness. Worry not, with out Sympton predictor you can get a free prediction of your situation
+          </p>
+          <a href="\Risk Predictions" class="btn btn-primary">Check Now</a>
         </div>
       </div>
       </div>

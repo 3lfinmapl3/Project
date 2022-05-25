@@ -1,3 +1,4 @@
+
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -11,6 +12,8 @@ from sklearn.ensemble import RandomForestClassifier
 from flask_sqlalchemy import SQLAlchemy
 from sklearn import metrics
 import matplotlib.pyplot as plt
+import seaborn as sns
+import pickle
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///Data.db"
@@ -33,17 +36,188 @@ class LiverDB(db.Model):
     def __repr__(self) -> str:
         return f"{self.sno}-{self.gender}"
 
+
+class HeartDB(db.Model):
+    sno = db.Column(db.Integer,primary_key = True)
+    age = db.Column(db.Integer,nullable=False)
+    gender = db.Column(db.Integer,nullable=False)
+    cs = db.Column(db.Integer,nullable=False)
+    cpd = db.Column(db.Integer,nullable=False)
+    bpmeds = db.Column(db.Integer,nullable=False)
+    pstrk = db.Column(db.Integer,nullable=False)
+    phyp = db.Column(db.Integer,nullable=False)
+    diab = db.Column(db.Integer,nullable=False)
+    totChol = db.Column(db.Integer,nullable=False)
+    sysBp = db.Column(db.Integer,nullable=False)
+    diaBp = db.Column(db.Integer,nullable=False)
+    bmi = db.Column(db.Integer,nullable=False)
+    hrte = db.Column(db.Integer,nullable=False)
+    gluc = db.Column(db.Integer,nullable=False)
+    
+    #1 means risk and 0 means norisk
+
+
+    def __repr__(self) -> str:
+        return f"{self.sno}-{self.gender}"
+    
+
 @app.route("/")
 def hello_world():
     return render_template('Home.html')
 
-@app.route("/Risk Predictions")
+@app.route("/Risk Predictions",methods=['GET','POST'])
 def RiskPredictons():
-    return render_template('Risk Predictions.html')
-
-@app.route("/Cardiovascular Analysis")
+    if request.method == 'GET':
+        return render_template('Risk Predictions.html')
+    else:
+        test = pd.read_csv("./static/dataset/test_data.csv",error_bad_lines=False)
+        train = pd.read_csv("./static/dataset/training_data.csv",error_bad_lines=False)
+        train=train.drop('Unnamed: 133',axis=1)
+        y_train=train.prognosis
+        x_train=train.drop('prognosis',axis=1)
+        y_test=test.prognosis
+        x_test=test.drop('prognosis',axis=1)
+        col=x_test.columns
+        clf_rf = RandomForestClassifier(random_state=43)
+        clr_rf = clf_rf.fit(x_train,y_train)
+        pickle.dump(clr_rf,open('D:\Flask Python\static\model.pkl','wb'))
+        input1 =  [str(x) for x in request.form.values()]
+        b=[0]*132
+        for x in range(0,132):
+            for y in input1:
+                if(col[x]==y):
+                    b[x]=1
+        b=np.array(b)
+        b=b.reshape(1,132)
+        prediction = clf_rf.predict(b)
+        prediction=prediction[0]
+       
+        return render_template('result.html',predi=prediction,succ = 1)
+@app.route("/Cardiovascular Analysis",methods=['GET','POST'])
 def Cardiovascular():
-    return render_template('Cardiovascular Analysis.html')
+    if request.method == 'GET':
+        return render_template('alt_Cardiovascular.html')
+    else:
+        heartData = HeartDB(age = request.form['age'],gender = request.form['gender'],cs = request.form['cs'],cpd = request.form['cpd'],totChol = request.form['totChol'],bpmeds = request.form['bpm'],pstrk = request.form['pstr'],phyp=request.form['phyp'],diab = request.form['diab'],sysBp=request.form['sysBp'],diaBp=request.form['diaBp'], bmi = request.form['bmi'], hrte = request.form['hrte'], gluc = request.form['gluc'])
+        db.session.add(heartData)
+        db.session.commit()
+        heart_dataset = pd.read_csv("D:\Flask Python\static\dataset\Heart2.csv")
+        heart_dataset.dropna(inplace=True)
+        heart_dataset = heart_dataset.drop(columns='education')
+        X = heart_dataset.drop(columns='TenYearCHD',axis=1)
+        Y = heart_dataset['TenYearCHD']
+        X_train, X_test, Y_train, Y_test = train_test_split(X.values,Y,test_size=0.3,random_state=10)
+        model = LogisticRegression(solver='liblinear',random_state = 0)
+        model.fit(X_train,Y_train)
+        y_pred = model.predict(X_test)
+        sendData2 = (heartData.gender,heartData.age,heartData.cs,heartData.cpd,heartData.bpmeds,heartData.pstrk,heartData.phyp,heartData.diab,heartData.totChol,heartData.sysBp,heartData.diaBp,heartData.bmi,heartData.hrte,heartData.gluc)
+        inputData = (heartData.gender,heartData.age,heartData.cs,heartData.cpd,heartData.bpmeds,heartData.pstrk,heartData.phyp,heartData.diab,heartData.totChol,heartData.sysBp,heartData.diaBp,heartData.bmi,heartData.hrte,heartData.gluc)
+        inputData = np.asarray(inputData)
+        inputData = inputData.reshape(1,-1)
+        prediction = model.predict(inputData)
+        smoke = "No Smoking Records found !"
+        bpmeds = "No BP medicational suggestions found"
+        diabetes = "No diabetic suggestions found"
+        prevalent = "No prevalent stroke or hypertensive reactions recorded !"
+        if(heartData.cs==1):
+            smoke = "Smoking can act as a catalyst to bring you closer to a heart disease. Stop smoking today !"
+            if(heartData.cpd > 1):
+                smoke = smoke + "Even 1 cigeratte per day can kill you, avoid the number of cigerattes you smoke !"          
+        if(heartData.bpmeds == 1):
+            bpmeds = "If you find any discomfort taking your BP medicines, go see a doctor !"
+        if(heartData.diab==1):
+            diabetes = "If you take diabetic medicines, do not stop taking it on time."
+        if(heartData.pstrk == 1 or heartData.phyp==1):
+            prevalent = "If you are a prevalent stroke or hypertensive person, take your medications on time and schedule regular visits to the doctor."    
+
+        if(heartData.age > 18):
+            axis_range = np.arange(1)
+            bar1 = plt.bar(axis_range,125,0.25,color="red")
+            bar2 = plt.bar(axis_range + 0.25,heartData.totChol,0.25, color="green")
+            bar3 = plt.bar(axis_range + 0.25 * 2, 200,0.25, color="orange")
+            plt.xticks(axis_range+0.25,['Total Cholesterol'])
+            plt.xlabel("Total Cholesterol")
+            plt.ylabel("Range")
+            plt.title("Your cholesterol range")
+            plt.legend((bar1,bar2,bar3),('Lowest Normal Range','Your Range','Highest Normal Range'))
+            plt.savefig('./static/Img/guestUserGraph/totChol.png')
+            plt.clf()
+            axis_range = np.arange(1)
+            bar1 = plt.bar(axis_range,60,0.25,color="red")
+            bar2 = plt.bar(axis_range + 0.25,heartData.hrte,0.25, color="green")
+            bar3 = plt.bar(axis_range + 0.25 * 2, 100,0.25, color="orange")
+            plt.xticks(axis_range+0.25,['Heart Rate'])
+            plt.xlabel("Heart Rate")
+            plt.ylabel("Range")
+            plt.title("Your heart rate range")
+            plt.legend((bar1,bar2,bar3),('Lowest Normal Rate','Your Rate','Highest Normal Rate'))
+            plt.savefig('./static/Img/guestUserGraph/heartRate.png')
+            plt.clf()
+
+
+        if(heartData.age < 18):
+            axis_range = np.arange(1)
+            bar1 = plt.bar(axis_range,125,0.25,color="red")
+            bar2 = plt.bar(axis_range + 0.25,heartData.totChol,0.25, color="green")
+            bar3 = plt.bar(axis_range + 0.25 * 2, 170,0.25, color="orange")
+            plt.xticks(axis_range+0.25,['Total Cholesterol'])
+            plt.xlabel("Vital")
+            plt.ylabel("Range")
+            plt.title("Your vital range")
+            plt.legend((bar1,bar2,bar3),('Lowest Normal Range','Your Range','Highest Normal Range'))
+            plt.savefig('./static/Img/guestUserGraph/totChol.png')
+            plt.clf()
+            axis_range = np.arange(1)
+            bar1 = plt.bar(axis_range,70,0.25,color="red")
+            bar2 = plt.bar(axis_range + 0.25,heartData.hrte,0.25, color="green")
+            bar3 = plt.bar(axis_range + 0.25 * 2, 100,0.25, color="orange")
+            plt.xticks(axis_range+0.25,['Heart Rate'])
+            plt.xlabel("Heart Rate")
+            plt.ylabel("Range")
+            plt.title("Your heart rate range")
+            plt.legend((bar1,bar2,bar3),('Lowest Normal Rate','Your Rante','Highest Normal Rate'))
+            plt.savefig('./static/Img/guestUserGraph/heartRate.png')
+            plt.clf()     
+
+        axis_range = np.arange(2)
+        your_range = [heartData.sysBp,heartData.diaBp]
+        highest_range = [120,80]
+        lower_range = [10,5]
+        bar1 = plt.bar(axis_range, lower_range,0.25,color="red")
+        bar2 = plt.bar(axis_range + 0.25,your_range,0.25, color="green")
+        bar3 = plt.bar(axis_range + 0.25 * 2, highest_range,0.25, color="orange")
+        plt.xticks(axis_range+0.25,['Sys BP','Dia BP'])
+        plt.xlabel("Blood Pressure")
+        plt.ylabel("Range")
+        plt.title("Your vital range")
+        plt.legend((bar1,bar2,bar3),('Lowest Normal Range','Your Range','Highest Normal Range'))
+        plt.savefig('./static/Img/guestUserGraph/bp.png')
+        plt.clf()
+
+        bar1 = plt.bar(np.arange(1),18.5,0.25,color="red")
+        bar2 = plt.bar(np.arange(1) + 0.25,heartData.bmi,0.25, color="green")
+        bar3 = plt.bar(np.arange(1) + 0.25 * 2,24.9,0.25, color="orange")
+        plt.xticks(np.arange(1)+0.25,['BMI'])
+        plt.xlabel("BMI")
+        plt.ylabel("Range")
+        plt.title("Your vital range")
+        plt.legend((bar1,bar2,bar3),('Lowest Normal Range','Your Range','Highest Normal Range'))
+        plt.savefig('./static/Img/guestUserGraph/bmi.png')
+        plt.clf()
+
+        bar1 = plt.bar(np.arange(1),50,0.25,color="red")
+        bar2 = plt.bar(np.arange(1) + 0.25,heartData.gluc,0.25, color="green")
+        bar3 = plt.bar(np.arange(1) + 0.25 * 2,139,0.25, color="orange")
+        plt.xticks(np.arange(1)+0.25,['Glucose'])
+        plt.xlabel("Glucose")
+        plt.ylabel("Range")
+        plt.title("Your vital range")
+        plt.legend((bar1,bar2,bar3),('Lowest Normal Range','Your Range','Highest Normal Range'))
+        plt.savefig('./static/Img/guestUserGraph/glucose.png')
+        plt.clf()
+
+        #Risk Prediction page = 0 CardioVascular = 1 Liver = 2 Kidney = 3
+        return render_template('result.html',categ = 1,resulT = prediction[0],name =request.form['name'] ,sent = sendData2, history =prevalent, smoking = smoke, Diabetes=diabetes, bpmeds = bpmeds)
 
 @app.route("/Liver Analysis",methods=['GET','POST'])
 def Liver():
@@ -53,7 +227,7 @@ def Liver():
         data = LiverDB(age = request.form['age'], gender = request.form['gender'] ,total_bilirubin = request.form['Total Bilirubin'],direct_bilirubin = request.form['Direct Bilirubin'],alkaline_phosphotase = request.form['Alkaline Phosphotase'],alamine_aminotransferase = request.form['Alamine Aminotransferase'],aspartate_aminotransferase = request.form['Aspartate Aminotransferase'],total_protiens = request.form['Total Protiens'],albumin = request.form['Albumin'],albuminGlobulin = request.form['AlbuminGlobulin'])
         db.session.add(data)
         db.session.commit()
-        liver_dataset = pd.read_csv("D:\Flask Python\static\liver_patient.csv")
+        liver_dataset = pd.read_csv("D:\Flask Python\static\dataset\liver_patient.csv")
         liver_dataset['Gender'] = liver_dataset['Gender'].map({'Male': 1, 'Female': 2})
         liver_dataset.dropna(inplace=True)
         X = liver_dataset.drop(columns='Dataset', axis=1)
@@ -226,7 +400,7 @@ def Liver():
         plt.ylabel("Range")
         plt.title("Your vital range")
         plt.legend((bar1,bar2,bar3),('Lowest Normal Range','Your Range','Highest Normal Range'))
-        plt.savefig('./static/guestUserReport1.png')
+        plt.savefig('D:\Flask Python\static\Img\guestUserGraph\guestUserReport1.png')
         plt.clf()
 
         axis_x = 5
@@ -242,23 +416,12 @@ def Liver():
         plt.ylabel("Range")
         plt.title("Your vital range")
         plt.legend((bar1,bar2,bar3),('Lowest Normal Range','Your Range','Highest Normal Range'))
-        plt.savefig('./static/guestUserReport2.png')
+        plt.savefig('./static/Img/guestUserGraph/guestUserReport2.png')
         plt.clf()
-
         
-    return render_template('result.html',resulT = prediction[0],  resultValue = result, userName = "Guest_User", age = data.age, gender = gend, totb= tb, dirtb = dirb, ALP = alp, ALT=alt, AST = ast, TP =tp, AL = al, ALGL = algl)
+        
+    return render_template('result.html',categ = 2,resulT = prediction[0],  resultValue = result, userName = "Guest_User", age = data.age, gender = gend, totb= tb, dirtb = dirb, ALP = alp, ALT=alt, AST = ast, TP =tp, AL = al, ALGL = algl)
        
-
-        
-
-        
-@app.route("/Lung Analysis")
-def Lung():
-    return render_template('Lung Analysis.html')
-
-
-
-
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
