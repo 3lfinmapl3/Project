@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+  <title>Cardio-Analyze</title>
+  <style>
+   .mybackground{
+        border: 10px outset  rgb(254, 254, 254);
+        border-radius: 25px;
+        padding: 20px;
+        background-color: rgb(15, 37, 78);
+        color: rgb(255, 255, 255);
+        box-shadow: 10px 10px 10px 10px grey;
+        width: 100%;
+        height: auto;
+        margin: top 5px;
+      }
+    
+      .navbarmod{
+        border: 5px outset  rgb(213, 210, 213);
+        padding: 20px;
+        background-color: rgb(33,37,41);
+        border-radius: 25px;
+        text-align:center;
+        color: rgb(245, 240, 240);
+        width: "100%";
+        height: "100%";
+      }
+    .myborder {
+      border: 10px outset rgb(254, 254, 254);
+      border-radius: 25px;
+      height: auto;
+      width: auto;
+      padding: 15px;
+    }
+
+    .font {
+      font-family: "Open Sans";
+      font-size: 20px;
+      color: rgb(255, 255, 255);
+      padding-top: 10px;
+    }
+
+    .header{
+        border: 5px outset  rgb(213, 210, 213);
+        padding: 20px;
+        padding-top: 20px;
+        padding-bottom: 5px;
+        background-color: rgb(0, 0, 0);
+        border-radius: 25px;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        text-align:center;
+        color: rgb(255, 255, 255);
+        width: 800px;
+        height: 110px;
+      }
+  </style>
+</head>
+
+<body>
+  <div class="mybackground"> 
+    <!-- Optional JavaScript; choose one of the two! -->
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+       crossorigin="anonymous">
+    </script>
+    <div class="navbarmod">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="http://127.0.0.1:8000">Liver-Analysis</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:8000">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:8000/Risk Predictions">Risk Predictions</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active" aria-current="page" href="#" id="navbarDropdownMenuLink"
+                  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Analysis
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li><a class="dropdown-item" href="http://127.0.0.1:8000/Cardiovascular Analysis">Cardiovascular
+                      Analysis</a></li>
+                  <li><a class="dropdown-item active" aria-current="page" href="http://127.0.0.1:8000/Liver Analysis">Liver
+                      Analysis</a></li>
+                  <li><a class="dropdown-item" href="http://127.0.0.1:8000/Kidney Analysis">Kidney Analysis</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  
+  <p></p>
+  <div class="myborder">
+    <p></p>
+    <center>
+      <div class="header">
+        <div class="font" >
+          <center>
+            <h2>Fill out these fields carefully</h2>
+          </center>
+        </div>
+      </div>
+    </center>
+    <p></p>
+    <!--Under this comes form display!!!please add form tags under this!!!-->
+    <form action="http://127.0.0.1:8000/Liver%20Analysis" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      <input type="number" class="form-control" name="age" id="age" placeholder="Enter your Age">
+    </div>
+    <select class="form-select" name="gender" id="gender" aria-label="Gender Select">
+      <option selected>select your gender</option>
+      <option value=2>Female</option>
+      <option value=1>Male</option>
+    </select>
+    <p></p>
+    <div class="mb-3">
+      <input type="text" step="any" class="form-control" name="name" id="name"
+        placeholder="Name">
+    </div>
+    <p></p>
+    <div class="mb-3">
+      <input type="number" step="any" class="form-control" name="Total Bilirubin" id="Total Bilirubin" placeholder="Enter 'Total Bilirubin' as per Liver-Analysis report">
+    </div>
+    <p></p>
+    <div class="mb-3">
+      <input type="number" step="any" class="form-control" name="Direct Bilirubin" id="Direct Bilirubin"
+        placeholder="Enter 'Direct Bilirubin' as per Liver-Analysis report">
+    </div>
+    <p></p>
+    <div class="mb-3">
+      <input type="number" step="any" class="form-control" name="Alkaline Phosphotase" id="Alkaline Phosphotase"
+        placeholder="Enter 'Alkaline Phosphotase' as per Liver-Analysis report">
+    </div>
+    <p></p>
+    <div class="mb-3">
+      <input type="number" step="any" class="form-control" name="Alamine Aminotransferase" id="Alamine Aminotransferase" placeholder="Enter 'Alamine Aminotransferase' as per Liver-Analysis report">
+    </div>
+    <p></p>
+    <div class="mb-3">
+      <input type="number" step="any" class="form-control" name="Aspartate Aminotransferase" id="Aspartate Aminotransferase"
+        placeholder="Enter 'Aspartate Aminotransferase' as per Liver-Analysis report">
+    </div>
+    <p></p>
+    <div class="mb-3">
+      <input type="number" step="any" class="form-control" name="Total Protiens" id="Total Protiens"
+        placeholder="Enter 'total protiens' as per Liver-Analysis report">
+    </div>
+    <p></p>
+    <div class="mb-3">
+      <input type="number" step="any" class="form-control" name="Albumin" id="Albumin" placeholder="Enter 'Albumin' as per Liver-Analysis report">
+    </div>
+    <p></p>
+    <div class="mb-3">
+      <input type="number" step="any" class="form-control" name="AlbuminGlobulin" id="AlbuminGlobulin"
+        placeholder="Enter 'Albumin:Globulin' as per Liver-Analysis report">
+    </div>
+    <p></p>
+    <div class="col-auto">
+      <center>
+        <button type="submit" class="btn btn-primary mb-3">Submit</button>
+      </center>
+    </div>
+  </form>
+    <!--Over this ends form display!!!plss add form tags over this-->
+  </div>
+
+ 
+  
+  </div>
+</body>
+
+</html>

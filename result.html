@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Health-Check</title>
+
+  <style>
+      .typewriter{
+        width:auto;
+        display: inline-block;
+        overflow: hidden; /* Ensures the content is not revealed until the animation */
+        border-right: .15em solid orange; /* The typwriter cursor */
+        white-space: nowrap; /* Keeps the content on a single line */
+        margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+        letter-spacing: .10em; /* Adjust as needed */
+        animation: 
+          typing 3.5s steps(40, end),
+          blink-caret .75s step-end infinite;
+      }
+      /* The typing effect */
+      @keyframes typing {
+        from { max-width: 0 }
+        to { max-width: 100% }
+      }
+      @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50% { border-color: orange; }
+      }
+      .mybackground{
+        border: 10px outset  rgb(254, 254, 254);
+        border-radius: 25px;
+        padding: 20px;
+        background-color: rgb(15, 37, 78);
+        color: rgb(255, 255, 255);
+        box-shadow: 10px 10px 10px 10px grey;
+        width: 100%;
+        height: auto;
+        margin: top 5px;
+      }
+
+      .carouselmod{
+        border: 10px outset rgb(254, 254, 254);
+        border-radius: 25px;
+        width:100%;
+        height:auto;
+        overflow: visible;
+      }
+
+      .overview{
+        border: 10px outset  rgb(254, 254, 254);
+        border-radius: 25px;
+        padding: 20px;
+        background-color: black;
+        text-align: center;
+        font-family:Georgia, 'Times New Roman', Times, serif;
+        font-size:24px;
+        color: rgb(255, 255, 255);
+        box-shadow: 10px 10px 10px 10px grey;
+        width: 100%;
+        height: 300px;
+        margin: top 5px;
+      }
+
+      .header{
+        border: 5px outset  rgb(213, 210, 213);
+        padding: 20px;
+        background-color: rgb(0, 0, 0);
+        border-radius: 25px;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        text-align:center;
+        color: rgb(255, 255, 255);
+        width: auto;
+        height: auto;
+      }
+
+      .navbarmod{
+        border: 5px outset  rgb(213, 210, 213);
+        padding: 20px;
+        background-color: rgb(33,37,41);
+        border-radius: 25px;
+        text-align:center;
+        color: rgb(245, 240, 240);
+        width: auto;
+        height: 100px;
+      }
+
+
+  </style>
+  </head>
+
+  <body>
+    <div class="mybackground">
+      <!--Here On starts Navbar-->
+      <div class="navbarmod">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="http://127.0.0.1:8000">Liver-Analysis</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:8000">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:8000/Risk Predictions">Risk Predictions</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active" aria-current="page" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Analysis
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li>
+                    <a class="dropdown-item" href="http://127.0.0.1:8000/Cardiovascular Analysis">Cardiovascular
+                        Analysis
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item active" aria-current="page" href="http://127.0.0.1:8000/Liver Analysis">Liver
+                        Analysis
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="http://127.0.0.1:8000/Kidney Analysis">Kidney Analysis</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <!--Here On Ends Navbar-->
+    <p></p>
+    {% if categ == 2 %}
+    <!--Below This is Liver Result-->
+      {% if resulT==2 %}
+      <img src="{{url_for('static',filename = 'Img/positiveResult.jpg')}}" width="100%" height="300px" alt="You are normal"><img>
+      {% else %}
+      <img src="{{url_for('static',filename = 'Img/negativeResult.jpg')}}" width="100%" height="300px" alt="You are at Risk"><img>
+      {% endif %}
+      <p></p>
+    
+    
+      <div class="header">
+      <center><h3>Detailed Report</h2></center>
+      <p></p>
+      <div class="mb-3 row">
+        <label for="Name" style="font-size: medium;" class="col-sm-2 col-form-label">Name</label>
+          <div class="col-sm-10">
+            <input type="text" style="border-color: azure; color: aliceblue;" readonly class="form-control-plaintext" id="Name" value={{name}}>
+          </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="Age" class="col-sm-2 col-form-label">Age</label>
+          <div class="col-sm-10">
+            <input type="text" style="border-color: azure; color: aliceblue;" readonly class="form-control-plaintext" id="Age" value={{age}}>
+          </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="Gender" class="col-sm-2 col-form-label">Gender</label>
+         <div class="col-sm-10">
+            <input type="text" style="border-color: azure; color: aliceblue;" readonly class="form-control-plaintext" id="Gender" value={{gender}}>
+         </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="TB" class="col-sm-2 col-form-label">Total Bilirubin</label>
+          <div class="col-sm-10">
+            {% if ( ("Abnormally High" in totb) or ("Low" in totb) )%}
+              <input type="text" style="border-color: rgb(255, 0, 0); color: rgb(255, 21, 0);" readonly class="form-control-plaintext" id="TB" value="{{totb}}">
+            {% elif "Moderately High" in totb %}
+              <input type="text" style="border-color: rgba(217, 77, 1, 0.645); color: rgb(217, 77, 1, 0.645);" readonly class="form-control-plaintext" id="TB" value="{{totb}}">
+            {% elif "Higher Than Normal" in totb %}
+              <input type="text" style="border-color: rgb(255, 242, 0); color: rgb(255, 242, 0);" readonly class="form-control-plaintext" id="TB" value="{{totb}}">
+            {% else %}
+              <input type="text" style="border-color: rgb(3, 255, 24); color: rgb(3, 255, 24);" readonly class="form-control-plaintext" id="TB" value="{{totb}}">
+            {% endif %}
+          </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="DB" class="col-sm-2 col-form-label">Direct Bilirubin</label>
+          <div class="col-sm-10">
+            {% if( ("Abnormally High" in dirtb) or ("Low" in dirtb) )%}
+              <input type="text" style="border-color: rgb(255, 0, 0); color: rgb(255, 21, 0);" readonly
+              class="form-control-plaintext" id="DB" value="{{dirtb}}">
+            {% elif "Moderately High" in dirtb %}
+              <input type="text" style="border-color: rgba(217, 77, 1, 0.645); color: rgb(217, 77, 1, 0.645);" readonly
+              class="form-control-plaintext" id="DB" value="{{dirtb}}">
+            {% elif "Higher Than Normal" in dirtb %}
+              <input type="text" style="border-color: rgb(255, 242, 0); color: rgb(255, 242, 0);" readonly
+              class="form-control-plaintext" id="DB" value="{{dirtb}}">
+            {% else %}
+              <input type="text" style="border-color: rgb(3, 255, 24); color: rgb(3, 255, 24);" readonly
+              class="form-control-plaintext" id="DB" value="{{dirtb}}">
+            {% endif %}
+          </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="ALP" class="col-sm-2 col-form-label">Alkaline Phosphotase</label>
+          <div class="col-sm-10">
+            {% if( ("Abnormally High" in ALP) or ("Low" in ALP) )%}
+              <input type="text" style="border-color: rgb(255, 0, 0); color: rgb(255, 21, 0);" readonly
+              class="form-control-plaintext" id="ALP" value="{{ALP}}">
+            {% elif "Moderately High" in ALP %}
+              <input type="text" style="border-color: rgba(217, 77, 1, 0.645); color: rgb(217, 77, 1, 0.645);" readonly
+              class="form-control-plaintext" id="ALP" value="{{ALP}}">
+            {% elif "Higher Than Normal" in ALP %}
+              <input type="text" style="border-color: rgb(255, 242, 0); color: rgb(255, 242, 0);" readonly
+              class="form-control-plaintext" id="ALP" value="{{ALP}}">
+            {% else %}
+              <input type="text" style="border-color: rgb(3, 255, 24); color: rgb(3, 255, 24);" readonly
+              class="form-control-plaintext" id="ALP" value="{{ALP}}">
+            {% endif %}
+          </div>
+      </div>
+      <!--EDIT FROM HERE-->
+      <div class="mb-3 row">
+        <label for="ALT" class="col-sm-2 col-form-label">Alanine Aminotransferase</label>
+          <div class="col-sm-10">
+          {% if( ("Abnormally High" in ALT) or ("Low" in ALT) )%}
+            <input type="text" style="border-color: rgb(255, 0, 0); color: rgb(255, 21, 0);" readonly
+            class="form-control-plaintext" id="ALT" value="{{ALT}}">
+          {% elif "Moderately High" in ALT %}
+            <input type="text" style="border-color: rgba(217, 77, 1, 0.645); color: rgb(217, 77, 1, 0.645);" readonly
+            class="form-control-plaintext" id="ALT" value="{{ALT}}">
+          {% elif "Higher Than Normal" in ALT %}
+            <input type="text" style="border-color: rgb(255, 242, 0); color: rgb(255, 242, 0);" readonly
+            class="form-control-plaintext" id="ALT" value="{{ALT}}">
+          {% else %}
+            <input type="text" style="border-color: rgb(3, 255, 24); color: rgb(3, 255, 24);" readonly
+            class="form-control-plaintext" id="ALT" value="{{ALT}}">
+          {% endif %}
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="AST" class="col-sm-2 col-form-label">Aspartate Aminotransferase</label>
+          <div class="col-sm-10">
+          {% if( ("Abnormally High" in AST) or ("Low" in AST) )%}
+            <input type="text" style="border-color: rgb(255, 0, 0); color: rgb(255, 21, 0);" readonly
+            class="form-control-plaintext" id="AST" value="{{AST}}">
+          {% elif "Moderately High" in AST %}
+            <input type="text" style="border-color: rgba(217, 77, 1, 0.645); color: rgb(217, 77, 1, 0.645);" readonly
+            class="form-control-plaintext" id="AST" value="{{AST}}">
+          {% elif "Higher Than Normal" in AST %}
+            <input type="text" style="border-color: rgb(255, 242, 0); color: rgb(255, 242, 0);" readonly
+            class="form-control-plaintext" id="AST" value="{{AST}}">
+          {% else %}
+            <input type="text" style="border-color: rgb(3, 255, 24); color: rgb(3, 255, 24);" readonly
+            class="form-control-plaintext" id="AST" value="{{AST}}">
+          {% endif %}
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="TP" class="col-sm-2 col-form-label">Total Protiens</label>
+        <div class="col-sm-10">
+          {% if( ("Abnormally High" in TP) or ("Low" in TP) )%}
+            <input type="text" style="border-color: rgb(255, 0, 0); color: rgb(255, 21, 0);" readonly
+            class="form-control-plaintext" id="TP" value="{{TP}}">
+          {% elif "Moderately High" in TP %}
+            <input type="text" style="border-color: rgba(217, 77, 1, 0.645); color: rgb(217, 77, 1, 0.645);" readonly
+            class="form-control-plaintext" id="TP" value="{{TP}}">
+          {% elif "Higher Than Normal" in TP %}
+            <input type="text" style="border-color: rgb(255, 242, 0); color: rgb(255, 242, 0);" readonly
+            class="form-control-plaintext" id="TP" value="{{TP}}">
+          {% else %}
+            <input type="text" style="border-color: rgb(3, 255, 24); color: rgb(3, 255, 24);" readonly
+            class="form-control-plaintext" id="TP" value="{{TP}}">
+          {% endif %}
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="AL" class="col-sm-2 col-form-label">Albumin</label>
+        <div class="col-sm-10">
+          {% if( ("Abnormally High" in AL) or ("Low" in AL) )%}
+            <input type="text" style="border-color: rgb(255, 0, 0); color: rgb(255, 21, 0);" readonly
+            class="form-control-plaintext" id="AL" value="{{AL}}">
+          {% elif "Moderately High" in AL %}
+            <input type="text" style="border-color: rgba(217, 77, 1, 0.645); color: rgb(217, 77, 1, 0.645);" readonly
+            class="form-control-plaintext" id="AL" value="{{AL}}">
+          {% elif "Higher Than Normal" in AL %}
+            <input type="text" style="border-color: rgb(255, 242, 0); color: rgb(255, 242, 0);" readonly
+            class="form-control-plaintext" id="AL" value="{{AL}}">
+          {% else %}
+            <input type="text" style="border-color: rgb(3, 255, 24); color: rgb(3, 255, 24);" readonly
+            class="form-control-plaintext" id="AL" value="{{AL}}">
+          {% endif %}
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="ALGL" class="col-sm-2 col-form-label">Albumin : Globulin </label>
+          <div class="col-sm-10">
+          {% if( ("Abnormally High" in ALGL) or ("Low" in ALGL) )%}
+            <input type="text" style="border-color: rgb(255, 0, 0); color: rgb(255, 21, 0);" readonly
+            class="form-control-plaintext" id="ALGL" value="{{ALGL}}">
+          {% elif "Moderately High" in ALGL %}
+            <input type="text" style="border-color: rgba(217, 77, 1, 0.645); color: rgb(217, 77, 1, 0.645);" readonly
+            class="form-control-plaintext" id="ALGL" value="{{ALGL}}">
+          {% elif "Higher Than Normal" in ALGL %}
+            <input type="text" style="border-color: rgb(255, 242, 0); color: rgb(255, 242, 0);" readonly
+            class="form-control-plaintext" id="ALGL" value="{{ALGL}}">
+          {% else %}
+            <input type="text" style="border-color: rgb(3, 255, 24); color: rgb(3, 255, 24);" readonly
+            class="form-control-plaintext" id="ALGL" value="{{ALGL}}">
+          {% endif %}
+        </div>
+      </div>
+      <p></p>
+      <center>Graphical Visuals of your vitals</center>
+      <p></p>
+      <img src="{{url_for('static',filename = '/Img/guestUserGraph/guestUserReport1.png')}}" width="50%" height="300px"
+        alt="Vitals Part 1"><img>
+      <p></p>
+      <img src="{{url_for('static',filename = '/Img/guestUserGraph/guestUserReport2.png')}}" width="50%" height="300px"
+        alt="Vitals Part 1"><img>
+      <p></p>
+      <h4>Conclusive Result : {{resultValue}}</h4>
+    </div>
+    <!--Above this was DIV for Liver Result-->
+    {% elif categ==1 %}
+      {% if resulT==0 %}
+        <img src="{{url_for('static',filename = 'Img/positiveResult.jpg')}}" width="100%" height="300px" alt="You are normal"><img>
+      {% else %}
+        <img src="{{url_for('static',filename = 'Img/negativeResult.jpg')}}" width="100%" height="300px" alt="You are at Risk"><img>
+      {% endif %}
+      <p></p>
+      <div class="Header">
+        <center><h3>Welcome, {{name}} here is your Detailed Report</h2></center>
+        <p></p>
+        <div class="mb-3 row">
+          <label for="Name" style="font-size: medium;" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-10">
+              <input type="text" style="border-color: azure; color: aliceblue;" readonly class="form-control-plaintext" id="Name" value={{name}}>
+            </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="Age" class="col-sm-2 col-form-label">Age</label>
+            <div class="col-sm-10">
+              <input type="text" style="border-color: azure; color: aliceblue;" readonly class="form-control-plaintext" id="Age" value={{sent[1]}}>
+            </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="Gender" class="col-sm-2 col-form-label">Gender</label>
+           <div class="col-sm-10">
+            {% if sent[0]== 1 %}
+              <input type="text" style="border-color: azure; color: aliceblue;" readonly class="form-control-plaintext" id="Gender" value="Male">
+            {%else%}
+              <input type="text" style="border-color: azure; color: aliceblue;" readonly class="form-control-plaintext" id="Gender" value="Female">
+            {%endif%}  
+           </div>
+        </div>
+      </div>
+      {% if sent[1] > 20 and  (sent[8] > 125 and sent[8] < 200) %}
+        <div class="mb-3 row"> 
+          <label for="totChol" class="col-sm-2 col-form-label">Cholesterol</label>
+          <div class="col-sm-10">
+            <input type="text" style="border-color: rgb(3, 255, 24); color: rgb(3, 255, 24);" readonly
+            class="form-control-plaintext" id="totChol" value="Normal Cholesterol Levels">
+          </div>
+        </div>
+      {% elif sent[1] < 20 and sent[8] < 170 %}
+        <div class="mb-3 row">
+          <label for="totChol" class="col-sm-2 col-form-label">Cholesterol</label>
+          <div class="col-sm-10">
+            <input type="text" style="border-color: rgb(3, 255, 24); color: rgb(3, 255, 24);" readonly
+            class="form-control-plaintext" id="totChol" value="Normal Cholesterol Levels">
+          </div>
+        </div>  
+      {% else %}
+        <div class="mb-3 row">
+          <label for="totChol" class="col-sm-2 col-form-label">Cholesterol</label>
+          <div class="col-sm-10">
+            <input type="text" style="border-color: rgba(217, 77, 1, 0.645); color: rgb(217, 77, 1, 0.645);" readonly
+            class="form-control-plaintext" id="totChol" value="Your Cholesterol levels are in danger !">
+          </div>
+        </div>
+      {% endif %}
+      {% if sent[9] < 120 and sent[10] < 80 %}
+        <div class="mb-3 row">
+          <label for="bp" class="col-sm-2 col-form-label">Blood Pressure </label>
+          <div class="col-sm-10">
+            <input type="text" style="border-color: rgb(3, 255, 24); color: rgb(3, 255, 24);" readonly
+            class="form-control-plaintext" id="bp" value="Normal Blood Pressure">
+          </div>
+        </div>
+      {% elif (sent[9] > 120 and sent[9] < 129) and sent[10] < 80 %}
+        <div class="mb-3 row">
+          <label for="bp" class="col-sm-2 col-form-label">Blood Pressure </label>
+          <div class="col-sm-10">
+            <input type="text" style="border-color: rgba(217, 77, 1, 0.645); color: rgb(217, 77, 1, 0.645);" readonly
+            class="form-control-plaintext" id="bp" value="You might be on the verge of getting a Hypertension !">
+          </div>
+        </div>  
+      {% else %}
+        <div class="mb-3 row">
+          <label for="bp" class="col-sm-2 col-form-label">Blood Pressure </label>
+          <div class="col-sm-10">
+            <input type="text" style="border-color: rgb(255, 0, 0); color: rgb(255, 21, 0);" readonly
+            class="form-control-plaintext" id="bp" value="Hypertension Detected">
+          </div>
+        </div>            
+      {% endif %}
+      {% if sent[11] > 18.5 and sent[11] < 25.0 %}
+        <div class="mb-3 row">
+          <label for="bmi" class="col-sm-2 col-form-label">Body Mass Index </label>
+          <div class="col-sm-10">
+            <input type="text" style="border-color: rgb(3, 255, 24); color: rgb(3, 255, 24);" readonly
+            class="form-control-plaintext" id="bmi" value="Healthy BMI">
+          </div>
+        </div>    
+      {% elif sent[11] > 25.0 and sent[11] < 29.9 %}
+        <div class="mb-3 row">
+          <label for="bmi" class="col-sm-2 col-form-label">Body Mass Index </label>
+          <div class="col-sm-10">
+            <input type="text" style="border-color: rgba(217, 77, 1, 0.645); color: rgb(217, 77, 1, 0.645);" readonly
+            class="form-control-plaintext" id="bmi" value="BMI on risk : Overweight">
+          </div>
+        </div>  
+      {% else %}
+        <div class="mb-3 row">
+          <label for="bmi" class="col-sm-2 col-form-label">Body Mass Index </label>
+          <div class="col-sm-10">
+          <input type="text" style="border-color: rgb(255, 0, 0); color: rgb(255, 21, 0);" readonly
+          class="form-control-plaintext" id="bmi" value="Your BMI is critically out of range !">
+          </div>
+        </div>  
+      {% endif %}
+        <div class="mb-3 row">
+          <label for="hrte" class="col-sm-2 col-form-label">Heart Rate </label>
+          <div class="col-sm-10">
+          {% if (sent[1] > 18 and (sent[12] < 60 or sent[12] > 100)) or (sent[1] < 18 and (sent[12] < 70 or sent[12] > 100)) %}
+            <input type="text" style="border-color: rgb(255, 0, 0); color: rgb(255, 21, 0);" readonly
+            class="form-control-plaintext" id="hrte" value="Unstable Heart Rate">
+          {% else %}
+            <input type="text" style="border-color: rgb(3, 255, 24); color: rgb(3, 255, 24);" readonly
+            class="form-control-plaintext" id="hrte" value="Stable Heart Rate"> 
+          {% endif %}   
+          </div>
+        </div>  
+        <div class="mb-3 row">
+          <label for="gluc" class="col-sm-2 col-form-label">Glucose </label>
+          <div class="col-sm-10">
+            {% if sent[13] < 140 %}
+              <input type="text" style="border-color: rgb(3, 255, 24); color: rgb(3, 255, 24);" readonly
+              class="form-control-plaintext" id="gluc" value="Normal Glucose levels">
+            {% elif sent[13] > 139 and sent[13] < 199  %}
+              <input type="text" style="border-color: rgb(209, 132, 0); color: rgb(255, 230, 0);" readonly
+              class="form-control-plaintext" id="gluc" value="Pre-Diabetic">
+            {%else%}
+              <input type="text" style="border-color: rgb(255, 0, 0); color: rgb(255, 21, 0);" readonly
+              class="form-control-plaintext" id="gluc" value="You are diabetic">    
+            {% endif %}   
+          </div>
+        </div>
+        <p></p>
+        <center><h2>Here is a graphical Respresentaion of your vitals and its risk factor</h2></center>
+        <p></p>
+        <center><img src="{{url_for('static',filename = '/Img/guestUserGraph/totChol.png')}}" width="50%" height="300px"
+        alt="Vitals Part 1"><img></center>
+        <p></p>
+        <center><img src="{{url_for('static',filename = '/Img/guestUserGraph/bp.png')}}" width="50%" height="300px"
+        alt="Vitals Part 1"><img></center>
+        <p></p>
+        <center><img src="{{url_for('static',filename = '/Img/guestUserGraph/bmi.png')}}" width="50%" height="300px"
+        alt="Vitals Part 1"><img></center>
+        <p></p>  
+        <center><img src="{{url_for('static',filename = '/Img/guestUserGraph/heartRate.png')}}" width="50%" height="300px"
+        alt="Vitals Part 1"><img></center>
+        <p></p>
+        <center><img src="{{url_for('static',filename = '/Img/guestUserGraph/glucose.png')}}" width="50%" height="300px"
+        alt="Vitals Part 1"><img></center>
+        <p></p>
+        <h2><center>A few suggestion to your health :</center></h2>
+        <p></p>
+        <h3>1.{{smoking}}</h3><br>
+        <p></p>
+        <h3>2.{{history}}</h3><br>
+        <p></p>
+        <h3>3.{{bpmeds}}</h3><br>
+        <p></p>
+        <h3>4.{{Diabetes}}</h3><br>
+    {% elif succ == 1%}
+        <div class="Header">
+          <center><img src="{{url_for('static',filename = '/Img/predict.jpg')}}" width="50%" height="300px"
+            alt="Vitals Part 1"><img></center>
+        </div> 
+        <p></p>
+        <div class="Header">
+          <center><h2>Your predictions</h2></center>
+          <p></p>
+          <center><h3>You might be under the risk of {{predi}}. Incase if the conditions worsen, see a doctor !</h3></center>
+        </div> 
+    {% endif %}
+
+  </body>
+</html>
