@@ -1,4 +1,3 @@
-
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -420,7 +419,7 @@ def Liver():
         plt.clf()
         
         
-    return render_template('result.html',categ = 2,resulT = prediction[0],  resultValue = result, userName = "Guest_User", age = data.age, gender = gend, totb= tb, dirtb = dirb, ALP = alp, ALT=alt, AST = ast, TP =tp, AL = al, ALGL = algl)
+    return render_template('result.html',categ = 2,resulT = prediction[0],  resultValue = result, userName = "Guest_User", age = data.age, gender = gend, totb= tb, dirtb = dirb, ALP = alp, ALT=alt, AST = ast, TP =tp, AL = al, ALGL = algl, name = request.form['name'])
        
 
 if __name__ == "__main__":

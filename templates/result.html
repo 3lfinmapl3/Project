@@ -155,7 +155,7 @@
       <div class="mb-3 row">
         <label for="Name" style="font-size: medium;" class="col-sm-2 col-form-label">Name</label>
           <div class="col-sm-10">
-            <input type="text" style="border-color: azure; color: aliceblue;" readonly class="form-control-plaintext" id="Name" value={{userName}}>
+            <input type="text" style="border-color: azure; color: aliceblue;" readonly class="form-control-plaintext" id="Name" value={{name}}>
           </div>
       </div>
       <div class="mb-3 row">
@@ -476,15 +476,15 @@
         <center><img src="{{url_for('static',filename = '/Img/guestUserGraph/glucose.png')}}" width="50%" height="300px"
         alt="Vitals Part 1"><img></center>
         <p></p>
-        <h2>A few suggestion to your health :</h2>
+        <h2><center>A few suggestion to your health :</center></h2>
         <p></p>
-        <h3>{{smoking}}</h3>
+        <h3>1.{{smoking}}</h3><br>
         <p></p>
-        <h3>{{history}}</h3>
+        <h3>2.{{history}}</h3><br>
         <p></p>
-        <h3>{{bpmeds}}</h3>
+        <h3>3.{{bpmeds}}</h3><br>
         <p></p>
-        <h3>{{Diabetes}}</h3>
+        <h3>4.{{Diabetes}}</h3><br>
     {% elif succ == 1%}
         <div class="Header">
           <center><img src="{{url_for('static',filename = '/Img/predict.jpg')}}" width="50%" height="300px"
